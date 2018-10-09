@@ -45,6 +45,9 @@ public class SensorTestClass extends LinearOpMode {
      * to the target object.  Note that the distance sensor saturates at around 2" (5 cm).
      *
      */
+
+    //test comment
+
     ColorSensor sensorColor1;
     DistanceSensor sensorDistance1;
 
