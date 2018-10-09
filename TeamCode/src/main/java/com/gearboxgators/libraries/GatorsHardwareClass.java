@@ -16,58 +16,51 @@ public class GatorsHardwareClass {
     public DcMotor rightBackMotor = null;
 
     //---Sensors
-    public TouchSensor leftTouch = null;
-/*
-    ColorSensor 1SensorColor = null;
-    DistanceSensor fSensorDistance = null;
+    private TouchSensor touchLeft = null;
+    private TouchSensor touchRight = null;
 
-    ColorSensor bSensorColor = null;
-    DistanceSensor bSensorDistance = null;
-*/
+    private ColorSensor ColorRight = null;
+    private DistanceSensor CDistanceRight = null;
+
+    private ColorSensor ColorLeft = null;
+    private DistanceSensor CDistanceLeft = null;
+
     HardwareMap map = null;
 
     private DcMotor.RunMode initialMode = null;
 
     //---map constructor
-        public GatorsHardwareClass(DcMotor.RunMode mode) {
+        public GatorsHardwareClass(DcMotor.RunMode mode, String powerBehaviour) {
+            this.setZeroPower(powerBehaviour);
             initialMode = mode;
+
         }
 
     //---Robot init
         public void init(HardwareMap mapA)  {
             map = mapA;
-
-            leftTouch = map.get(TouchSensor.class, "sensor_touch_right");
-
-/*
-            fSensorColor = map.get(ColorSensor.class, "sensor_coldis_front");
-            fSensorDistance = map.get(DistanceSensor.class, "sensor_coldis_front");
-
-            bSensorColor = map.get(ColorSensor.class, "sensor_coldis_bottom");
-            bSensorDistance = map.get(DistanceSensor.class, "sensor_coldis_bottom");
-
-            leftFrontMotor = map.dcMotor.get("left_front");
-            rightFrontMotor = map.dcMotor.get("right_front");
-            leftBackMotor = map.dcMotor.get("left_back");
-            rightBackMotor = map.dcMotor.get("right_back");
-
-            leftFrontMotor.setMode(initialMode);
-            rightFrontMotor.setMode(initialMode);
-            leftBackMotor.setMode(initialMode);
-            rightBackMotor.setMode(initialMode);
-
-            leftFrontMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-            rightFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-            leftBackMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-            rightBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
-
+            //---Motors---
+                //Drive Train Motors
+                leftBackMotor = map.get(DcMotor.class, "left_back_drive");
+                leftFrontMotor = map.get(DcMotor.class, "left_front_drive");
+                rightBackMotor = map.get(DcMotor.class, "right_back_drive");
+                rightFrontMotor = map.get(DcMotor.class, "right_front_drive");
+            //---Sensors---
+                //Touch Sensors
+                touchLeft = map.get(TouchSensor.class, "sensor_touch_left");
+                touchRight = map.get(TouchSensor.class, "sensor_touch_right");
+                //Bottom Right Color Distance
+                ColorRight = map.get(ColorSensor.class, "sensor_color_distance_right");
+                CDistanceRight = map.get(DistanceSensor.class, "sensor_color_distance_right");
+                //Bottom Left Color Distance
+                ColorLeft = map.get(ColorSensor.class, "sensor_color_distance_left");
+                CDistanceLeft = map.get(DistanceSensor.class, "sensor_color_distance_left");
 
             resetDriveTrain();
-            stopDrive();*/
+            stopDrive();
         }
 
-    //integrated methods for OpModes
+    //---Integrated Methods For OpModes---
         public void resetDriveTrain()   {
             leftBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             rightBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
