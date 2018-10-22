@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
@@ -24,27 +25,10 @@ import java.util.Locale;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  */
-@TeleOp(name = "Sensor: REVColorDistance")
+@TeleOp(name = "SensorTesting")
                             // Comment this out to add to the opmode list
 public class SensorTestClass extends LinearOpMode {
 
-    /**
-     * Note that the REV Robotics Color-Distance incorporates two sensors into one device.
-     * It has a light/distance (range) sensor.  It also has an RGB color sensor.
-     * The light/distance sensor saturates at around 2" (5cm).  This means that targets that are 2"
-     * or closer will display the same value for distance/light detected.
-     *
-     * Although you configure a single REV Robotics Color-Distance sensor in your configuration file,
-     * you can treat the sensor as two separate sensors that share the same name in your op mode.
-     *
-     * In this example, we represent the detected color by a hue, saturation, and value color
-     * model (see https://en.wikipedia.org/wiki/HSL_and_HSV).  We change the background
-     * color of the screen to match the detected color.
-     *
-     * In this example, we  also use the distance sensor to display the distance
-     * to the target object.  Note that the distance sensor saturates at around 2" (5 cm).
-     *
-     */
 
     //test comment
 
@@ -57,10 +41,15 @@ public class SensorTestClass extends LinearOpMode {
     TouchSensor sensorTouch1;
 
     TouchSensor sensorTouch2;
+
+    DcMotor rightFrontDrive;
+    DcMotor leftFrontDrive;
+    DcMotor rightBackDrive;
+    DcMotor leftBackDrive;
     public void method(ColorSensor c1, DistanceSensor c2, String name)   {
 
         telemetry.addData(name + " Distance (cm)",
-                String.format(Locale.US, "%.02f", c2.getDistance(DistanceUnit.CM)));
+                String.format(Locale.US, "%.02f", c2.getDistance(DistanceUnit.CM))+" centimentiheckinmeters my dude!");
 
         telemetry.addData(name + " red", c1.red());
         telemetry.addData(name + " blue", c1.blue());
@@ -83,6 +72,11 @@ public class SensorTestClass extends LinearOpMode {
 
         sensorTouch1 = hardwareMap.get(TouchSensor.class, "sensor_touch1");
         sensorTouch2 = hardwareMap.get(TouchSensor.class, "sensor_touch2");
+
+        rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        rightFrontDrive =  hardwareMap.get(DcMotor.class, "right_front_drive");
+        leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
+        leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
 
         // hsvValues is an array that will hold the hue, saturation, and value information.
         float hsvValues[] = {0F, 0F, 0F};
@@ -115,6 +109,10 @@ public class SensorTestClass extends LinearOpMode {
 
             telemetry.addData("touch1",sensorTouch1.isPressed());
             telemetry.addData("touch2",sensorTouch2.isPressed());
+            rightBackDrive.setPower(gamepad1.right_stick_y);
+            rightFrontDrive.setPower(gamepad1.right_stick_y);
+            leftBackDrive.setPower(gamepad1.left_stick_y);
+            leftFrontDrive.setPower(gamepad1.left_stick_y);
 
             // change the background color to match the color detected by the RGB sensor.
             // pass a reference to the hue, saturation, and value array as an argument

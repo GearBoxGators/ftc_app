@@ -2,11 +2,13 @@ package com.gearboxgators.opmodes;
 
 import com.gearboxgators.libraries.GatorsHardwareClass;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+@TeleOp(name = "TeleOp:Mecanum_Capable")
 public class TeleOpMecanum extends OpMode {
-    GatorsHardwareClass map = new GatorsHardwareClass(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    GatorsHardwareClass map = new GatorsHardwareClass(DcMotor.RunMode.RUN_WITHOUT_ENCODER, DcMotor.ZeroPowerBehavior.FLOAT);
     private ElapsedTime runtime = new ElapsedTime();
 
     double leftX = gamepad1.left_stick_x;
@@ -16,17 +18,18 @@ public class TeleOpMecanum extends OpMode {
 
     @Override
     public void init()  {
-        telemetry.addData("Init Status:","incomplete");
+        String initStatus = "incomplete";
+        telemetry.addData("---Init Status---:",initStatus);
         map.init(hardwareMap);
-        telemetry.addData("Init Status:","complete");
+        initStatus = "complete";
+        telemetry.clearAll();
+        telemetry.addData("---Init Status---:",initStatus);
     }
 
     @Override
     public void init_loop() {
 
-
     }
-
     @Override
     public void start() {
 

@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class TeleOpTank extends OpMode{
 
-    GatorsHardwareClass map = new GatorsHardwareClass(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    GatorsHardwareClass map = new GatorsHardwareClass(DcMotor.RunMode.RUN_WITHOUT_ENCODER, DcMotor.ZeroPowerBehavior.FLOAT);
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -31,10 +31,19 @@ public class TeleOpTank extends OpMode{
 
     @Override
     public void loop()  {
-        map.rightBackMotor.setPower(gamepad1.right_stick_y);
-        map.leftBackMotor.setPower(gamepad1.left_stick_y);
-        map.rightFrontMotor.setPower(gamepad1.right_stick_y);
-        map.leftFrontMotor.setPower(gamepad1.left_stick_y);
+//        map.rightBackMotor.setPower(gamepad1.right_stick_y);
+//        map.leftBackMotor.setPower(gamepad1.left_stick_y);
+//        map.rightFrontMotor.setPower(gamepad1.right_stick_y);
+//        map.leftFrontMotor.setPower(gamepad1.left_stick_y);
+        double leftY = gamepad1.left_stick_y;
+        double leftX = gamepad1.left_stick_x;
+        double rightY = gamepad1.right_stick_y;
+        double rightX = gamepad1.right_stick_x;
+        //Front right = leftY-leftX-rightX Back right = leftY+leftX-rightX Front left = leftY+leftX+rightX Back left = leftY-leftX+rightX
+        map.rightFrontMotor.setPower(leftY-leftX-rightX);
+        map.rightBackMotor.setPower(leftY+leftX-rightX);
+        map.leftFrontMotor.setPower(leftY+leftX+rightX);
+        map.leftBackMotor.setPower(leftY-leftX+rightX);
     }
 
 }
